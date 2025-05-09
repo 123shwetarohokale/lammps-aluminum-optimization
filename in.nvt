@@ -60,5 +60,5 @@ thermo 100
 run 1000
 
 # Save the final configuration.
-write_data al.dat.out
+write_data al.data.out
 
