@@ -16,4 +16,4 @@ module load lammps/2023.02.22-cuda   # Replace with actual module name on Borah
 export OMP_NUM_THREADS=14
 
 # Run LAMMPS with GPU acceleration
-mpirun -np 1 lmp -sf gpu -pk gpu 1 -in in.tensile.txt -var latconst 4.05
+mpirun -np 1 lmp -sf gpu -pk gpu 1 -in in.tensile.nvt -var latconst 4.05
