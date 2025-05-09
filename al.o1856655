@@ -1,0 +1,232 @@
+Loading lammps_gpu/29aug2024/openmpi/4.1.3/gcc/12.1.0
+  Unloading conflict: gcc/9.2.0
+  Loading requirement: borah-base/default borah-libraries/default gcc/12.1.0
+    openmpi/4.1.3/gcc/12.1.0 cuda_toolkit/12.3.0 blas/3.11.0/gcc/12.1.0
+    lapack/3.11.0/gcc/12.1.0 gsl/2.8/gcc/12.1.0
+    fftw/3.3.10/openmpi/4.1.3/gcc/12.1.0 python/3.9.7
+LAMMPS (29 Aug 2024 - Update 2)
+  using 14 OpenMP thread(s) per MPI task
+  using 14 OpenMP thread(s) per MPI task
+Lattice spacing in x,y,z = 4 4 4
+Created orthogonal box = (0 0 0) to (4 4 4)
+  1 by 1 by 1 MPI processor grid
+Lattice spacing in x,y,z = 4 4 4
+Created 4 atoms
+  using lattice units in orthogonal box = (0 0 0) to (4 4 4)
+  create_atoms CPU = 0.001 seconds
+Replication is creating a 3x3x3 = 27 times larger system...
+  orthogonal box = (0 0 0) to (12 12 12)
+  1 by 1 by 1 MPI processor grid
+  108 atoms
+  replicate CPU = 0.001 seconds
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+- GPU package (short-range, long-range and three-body potentials): doi:10.1016/j.cpc.2010.12.021, doi:10.1016/j.cpc.2011.10.012, doi:10.1016/j.cpc.2013.08.002, doi:10.1016/j.commatsci.2014.10.068, doi:10.1016/j.cpc.2016.10.020, doi:10.3233/APC200086
+The log file lists these citations in BibTeX format.
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Switching to 'neigh_modify every 1 delay 0 check yes' setting during minimization
+
+--------------------------------------------------------------------------
+- Using acceleration for eam/alloy:
+-  with 1 proc(s) per device.
+-  with 14 thread(s) per proc.
+-  Horizontal vector operations: ENABLED
+-  Shared memory system: No
+--------------------------------------------------------------------------
+Device 0: NVIDIA A30, 56 CUs, 23/23 GB, 1.4 GHZ (Mixed Precision)
+--------------------------------------------------------------------------
+
+Initializing Device and compiling on process 0...Done.
+Initializing Device 0 on core 0...Done.
+
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 0
+WARNING: Energy due to 1 extra global DOFs will be included in minimizer energies
+ (src/min.cpp:219)
+Per MPI rank memory allocation (min/avg/max) = 11.92 | 11.92 | 11.92 Mbytes
+   Step         PotEng           Lx             Ly             Lz           Press           Pxx            Pyy            Pzz          c_eatoms   
+         0  -362.28024      12             12             12             29590.196      29590.196      29590.196      29590.196     -362.28024    
+        10  -362.85577      12.12          12.12          12.12          5853.9153      5853.9175      5853.9175      5853.911      -362.85577    
+        16  -362.88         12.150014      12.150014      12.150014     -0.0032261755  -0.0027053953  -0.0027053953  -0.0042677361  -362.88       
+Loop time of 0.00602902 on 14 procs for 16 steps with 108 atoms
+
+83.2% CPU use with 1 MPI tasks x 14 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = linesearch alpha is zero
+  Energy initial, next-to-last, final = 
+     -362.280242878944  -362.880001581274  -362.880001581274
+  Force two-norm initial, final = 95.741996 2.5865002e-05
+  Force max component initial, final = 95.741996 1.0701229e-05
+  Final line search alpha, max atom move = 0.5 5.3506146e-06
+  Iterations, force evaluations = 16 21
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0055057  | 0.0055057  | 0.0055057  |   0.0 | 91.32
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.00010216 | 0.00010216 | 0.00010216 |   0.0 |  1.69
+Output  | 1.3312e-05 | 1.3312e-05 | 1.3312e-05 |   0.0 |  0.22
+Modify  | 1.182e-06  | 1.182e-06  | 1.182e-06  |   0.0 |  0.02
+Other   |            | 0.0004067  |            |       |  6.75
+
+Nlocal:            108 ave         108 max         108 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1580 ave        1580 max        1580 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Neighbor list builds = 0
+Dangerous builds = 0
+Running simulation with lattice constant = 4
+Total energy (eV) = -362.880001581274;
+Number of atoms = 108;
+Lattice constant (Angstoms) = 12.1500136436709;
+Cohesive energy (eV) = -3.36000001464143;
+All done!
+System init for write_data ...
+
+
+---------------------------------------------------------------------
+      Device Time Info (average): 
+---------------------------------------------------------------------
+Data Transfer:   0.0006 s.
+Neighbor copy:   0.0000 s.
+Neighbor build:  0.0001 s.
+Force calc:      0.0015 s.
+Device Overhead: 0.0009 s.
+CPU Neighbor:    0.0001 s.
+CPU Cast/Pack:   0.0031 s.
+CPU Driver_Time: 0.0003 s.
+CPU Idle_Time:   0.0010 s.
+Average split:   1.0000.
+Max Mem / Proc:  1.42 MB.
+Prefetch mode:   None.
+Vector width:    32.
+Lanes / atom:    4.
+Pair block:      256.
+Neigh block:     128.
+Neigh mode:      Hybrid (binning on host) with subgroup support
+---------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------
+- Using acceleration for eam/alloy:
+-  with 1 proc(s) per device.
+-  with 14 thread(s) per proc.
+-  Horizontal vector operations: ENABLED
+-  Shared memory system: No
+--------------------------------------------------------------------------
+Device 0: NVIDIA A30, 56 CUs, 23/23 GB, 1.4 GHZ (Mixed Precision)
+--------------------------------------------------------------------------
+
+Initializing Device and compiling on process 0...Done.
+Initializing Device 0 on core 0...Done.
+
+
+--------------------------------------------------------------------------
+- Using acceleration for eam/alloy:
+-  with 1 proc(s) per device.
+-  with 14 thread(s) per proc.
+-  Horizontal vector operations: ENABLED
+-  Shared memory system: No
+--------------------------------------------------------------------------
+Device 0: NVIDIA A30, 56 CUs, 23/23 GB, 1.4 GHZ (Mixed Precision)
+--------------------------------------------------------------------------
+
+Initializing Device and compiling on process 0...Done.
+Initializing Device 0 on core 0...Done.
+
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 16
+  Time step     : 0.0025
+Per MPI rank memory allocation (min/avg/max) = 10.92 | 10.92 | 10.92 Mbytes
+   Step         PotEng           Lx             Ly             Lz           Press           Pxx            Pyy            Pzz          c_eatoms   
+        16  -362.87999      12.150014      12.150014      12.150014      2248.611       1954.7257      2621.3935      2169.7139     -362.87999    
+       100  -360.60359      12.150014      12.150014      12.150014      3982.8522      3844.2401      4010.5739      4093.7426     -360.60359    
+       200  -359.87046      12.150014      12.150014      12.150014      6189.2863      5846.1688      5878.2121      6843.478      -359.87046    
+       300  -359.86351      12.150014      12.150014      12.150014      6836.066       6764.8422      6710.5958      7032.76       -359.86351    
+       400  -359.52155      12.150014      12.150014      12.150014      6975.442       6992.7188      6907.0144      7026.5927     -359.52155    
+       500  -358.98197      12.150014      12.150014      12.150014      8901.0405      8636.2185      9287.6463      8779.2567     -358.98197    
+       600  -359.2502       12.150014      12.150014      12.150014      8482.9009      8263.1658      8001.6847      9183.8521     -359.2502     
+       700  -358.9818       12.150014      12.150014      12.150014      8560.7929      7490.1214      9149.75        9042.5072     -358.9818     
+       800  -359.03452      12.150014      12.150014      12.150014      8008.3489      8531.7481      7746.2747      7747.0237     -359.03452    
+       900  -359.52376      12.150014      12.150014      12.150014      7343.0948      7047.33        7568.5379      7413.4165     -359.52376    
+      1000  -359.04802      12.150014      12.150014      12.150014      8241.0406      8478.0816      8256.6729      7988.3674     -359.04802    
+      1016  -359.29284      12.150014      12.150014      12.150014      8103.9251      8505.5027      7862.463       7943.8097     -359.29284    
+Loop time of 0.547731 on 14 procs for 1000 steps with 108 atoms
+
+Performance: 394.354 ns/day, 0.061 hours/ns, 1825.714 timesteps/s, 197.177 katom-step/s
+72.7% CPU use with 1 MPI tasks x 14 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.24896    | 0.24896    | 0.24896    |   0.0 | 45.45
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.004625   | 0.004625   | 0.004625   |   0.0 |  0.84
+Output  | 0.0001346  | 0.0001346  | 0.0001346  |   0.0 |  0.02
+Modify  | 0.29289    | 0.29289    | 0.29289    |   0.0 | 53.47
+Other   |            | 0.001122   |            |       |  0.20
+
+Nlocal:            108 ave         108 max         108 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1580 ave        1580 max        1580 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Neighbor list builds = 0
+Dangerous builds = 0
+System init for write_data ...
+
+
+---------------------------------------------------------------------
+      Device Time Info (average): 
+---------------------------------------------------------------------
+Data Transfer:   0.0236 s.
+Neighbor copy:   0.0000 s.
+Neighbor build:  0.0001 s.
+Force calc:      0.0677 s.
+Device Overhead: 0.0251 s.
+CPU Neighbor:    0.0000 s.
+CPU Cast/Pack:   0.1233 s.
+CPU Driver_Time: 0.0087 s.
+CPU Idle_Time:   0.0448 s.
+Average split:   1.0000.
+Max Mem / Proc:  1.38 MB.
+Prefetch mode:   None.
+Vector width:    32.
+Lanes / atom:    4.
+Pair block:      256.
+Neigh block:     128.
+Neigh mode:      Hybrid (binning on host) with subgroup support
+---------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------
+- Using acceleration for eam/alloy:
+-  with 1 proc(s) per device.
+-  with 14 thread(s) per proc.
+-  Horizontal vector operations: ENABLED
+-  Shared memory system: No
+--------------------------------------------------------------------------
+Device 0: NVIDIA A30, 56 CUs, 23/23 GB, 1.4 GHZ (Mixed Precision)
+--------------------------------------------------------------------------
+
+Initializing Device and compiling on process 0...Done.
+Initializing Device 0 on core 0...Done.
+
+Total wall time: 0:00:01

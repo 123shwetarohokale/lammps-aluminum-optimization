@@ -1,0 +1,244 @@
+LAMMPS (29 Aug 2024 - Update 2)
+  using 14 OpenMP thread(s) per MPI task
+package gpu 1
+# Find minimum energy fcc configuration
+# Mark Tschopp, 2010
+
+# ---------- Initialize Simulation ---------------------
+clear
+  using 14 OpenMP thread(s) per MPI task
+package gpu 1
+units metal
+dimension 3
+boundary p p p
+atom_style atomic
+atom_modify map array
+
+# ---------- Create Atoms ---------------------
+lattice 	fcc ${latconst}
+lattice 	fcc 4
+Lattice spacing in x,y,z = 4 4 4
+region box block 0 1 0 1 0 1 units lattice
+create_box 1 box
+Created orthogonal box = (0 0 0) to (4 4 4)
+  1 by 1 by 1 MPI processor grid
+lattice	fcc ${latconst} orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+lattice	fcc 4 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+Lattice spacing in x,y,z = 4 4 4
+create_atoms 1 box
+Created 4 atoms
+  using lattice units in orthogonal box = (0 0 0) to (4 4 4)
+  create_atoms CPU = 0.001 seconds
+replicate 3 3 3
+Replication is creating a 3x3x3 = 27 times larger system...
+  orthogonal box = (0 0 0) to (12 12 12)
+  1 by 1 by 1 MPI processor grid
+  108 atoms
+  replicate CPU = 0.001 seconds
+
+# ---------- Define Interatomic Potential ---------------------
+pair_style eam/alloy
+pair_coeff * * Al99.eam.alloy Al
+neighbor 2.0 bin
+neigh_modify delay 10 check yes
+
+# ---------- Define Settings ---------------------
+compute eng all pe/atom
+compute eatoms all reduce sum c_eng
+
+# ---------- Run Minimization ---------------------
+reset_timestep 0
+fix 1 all box/relax iso 0.0 vmax 0.001
+thermo 10
+thermo_style custom step pe lx ly lz press pxx pyy pzz c_eatoms
+min_style cg
+minimize 1e-25 1e-25 5000 10000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- GPU package (short-range, long-range and three-body potentials): doi:10.1016/j.cpc.2010.12.021, doi:10.1016/j.cpc.2011.10.012, doi:10.1016/j.cpc.2013.08.002, doi:10.1016/j.commatsci.2014.10.068, doi:10.1016/j.cpc.2016.10.020, doi:10.3233/APC200086
+
+@Article{Brown11,
+ author = {W. M. Brown and P. Wang and S. J. Plimpton and A. N. Tharrington},
+ title = {Implementing Molecular Dynamics on Hybrid High Performance Computers---Short Range Forces},
+ journal = {Comput.\ Phys.\ Commun.},
+ year =    2011,
+ volume =  182,
+ pages =   {898--911},
+ doi =     {10.1016/j.cpc.2010.12.021}
+}
+
+@Article{Brown12,
+ author = {W. M. Brown and A. Kohlmeyer and S. J. Plimpton and A. N. Tharrington},
+ title = {Implementing Molecular Dynamics on Hybrid High Performance Computers - Particle-Particle Particle-Mesh},
+ journal = {Comput.\ Phys.\ Commun.},
+ year =    2012,
+ volume =  183,
+ doi =     {10.1016/j.cpc.2011.10.012},
+ pages =   {449--459}
+}
+
+@Article{Brown13,
+ author = {W. M. Brown and Y. Masako},
+ title = {Implementing Molecular Dynamics on Hybrid High Performance Computers---Three-Body Potentials},
+ journal = {Comput.\ Phys.\ Commun.},
+ year =    2013,
+ volume =  184,
+ pages =   {2785--2793},
+ doi =     {10.1016/j.cpc.2013.08.002},
+}
+
+@Article{Trung15,
+ author = {T. D. Nguyen and S. J. Plimpton},
+ title = {Accelerating Dissipative Particle Dynamics Simulations for Soft Matter Systems},
+ journal = {Comput.\ Mater.\ Sci.},
+ year =    2015,
+ doi =     {10.1016/j.commatsci.2014.10.068},
+ volume =  100,
+ pages =   {173--180}
+}
+
+@Article{Trung17,
+ author = {T. D. Nguyen},
+ title = {{GPU}-Accelerated {T}ersoff Potentials for Massively Parallel
+    Molecular Dynamics Simulations},
+ journal = {Comput.\ Phys.\ Commun.},
+ year =    2017,
+ doi =     {10.1016/j.cpc.2016.10.020},
+ volume =  212,
+ pages =   {113--122}
+}
+
+@inproceedings{Nikolskiy19,
+ author = {V. Nikolskiy and V. Stegailov},
+ title = {{GPU} Acceleration of Four-Site Water Models in {LAMMPS}},
+ booktitle = {Proceedings of the International Conference on Parallel
+    Computing (ParCo 2019), Prague, Czech Republic},
+ doi =     {10.3233/APC200086},
+ year =    2019
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Switching to 'neigh_modify every 1 delay 0 check yes' setting during minimization
+WARNING: Energy due to 1 extra global DOFs will be included in minimizer energies
+ (src/min.cpp:219)
+Per MPI rank memory allocation (min/avg/max) = 11.92 | 11.92 | 11.92 Mbytes
+   Step         PotEng           Lx             Ly             Lz           Press           Pxx            Pyy            Pzz          c_eatoms   
+         0  -362.28024      12             12             12             29590.196      29590.196      29590.196      29590.196     -362.28024    
+        10  -362.85577      12.12          12.12          12.12          5853.9153      5853.9175      5853.9175      5853.911      -362.85577    
+        16  -362.88         12.150014      12.150014      12.150014     -0.0032261755  -0.0027053953  -0.0027053953  -0.0042677361  -362.88       
+Loop time of 0.00602902 on 14 procs for 16 steps with 108 atoms
+
+83.2% CPU use with 1 MPI tasks x 14 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = linesearch alpha is zero
+  Energy initial, next-to-last, final = 
+     -362.280242878944  -362.880001581274  -362.880001581274
+  Force two-norm initial, final = 95.741996 2.5865002e-05
+  Force max component initial, final = 95.741996 1.0701229e-05
+  Final line search alpha, max atom move = 0.5 5.3506146e-06
+  Iterations, force evaluations = 16 21
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0055057  | 0.0055057  | 0.0055057  |   0.0 | 91.32
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.00010216 | 0.00010216 | 0.00010216 |   0.0 |  1.69
+Output  | 1.3312e-05 | 1.3312e-05 | 1.3312e-05 |   0.0 |  0.22
+Modify  | 1.182e-06  | 1.182e-06  | 1.182e-06  |   0.0 |  0.02
+Other   |            | 0.0004067  |            |       |  6.75
+
+Nlocal:            108 ave         108 max         108 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1580 ave        1580 max        1580 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Neighbor list builds = 0
+Dangerous builds = 0
+
+variable natoms equal "count(all)"
+variable teng equal "c_eatoms"
+variable length equal "lx"
+variable ecoh equal "v_teng/v_natoms"
+
+print "Running simulation with lattice constant = ${latconst}"
+Running simulation with lattice constant = 4
+print "Total energy (eV) = ${teng};"
+Total energy (eV) = -362.880001581274;
+print "Number of atoms = ${natoms};"
+Number of atoms = 108;
+print "Lattice constant (Angstoms) = ${length};"
+Lattice constant (Angstoms) = 12.1500136436709;
+print "Cohesive energy (eV) = ${ecoh};"
+Cohesive energy (eV) = -3.36000001464143;
+
+print "All done!"
+All done!
+#
+# Integration details,
+timestep 0.0025
+fix ensFix all nvt temp 273 273 0.25
+velocity all create 273 4928459 dist gaussian
+#dump myDump all  atom 100 traj.dcd
+# Save the starting configuration.
+write_data starting.dat.out
+System init for write_data ...
+
+# Run the simulation.
+thermo 100
+run 1000
+Per MPI rank memory allocation (min/avg/max) = 10.92 | 10.92 | 10.92 Mbytes
+   Step         PotEng           Lx             Ly             Lz           Press           Pxx            Pyy            Pzz          c_eatoms   
+        16  -362.87999      12.150014      12.150014      12.150014      2248.611       1954.7257      2621.3935      2169.7139     -362.87999    
+       100  -360.60359      12.150014      12.150014      12.150014      3982.8522      3844.2401      4010.5739      4093.7426     -360.60359    
+       200  -359.87046      12.150014      12.150014      12.150014      6189.2863      5846.1688      5878.2121      6843.478      -359.87046    
+       300  -359.86351      12.150014      12.150014      12.150014      6836.066       6764.8422      6710.5958      7032.76       -359.86351    
+       400  -359.52155      12.150014      12.150014      12.150014      6975.442       6992.7188      6907.0144      7026.5927     -359.52155    
+       500  -358.98197      12.150014      12.150014      12.150014      8901.0405      8636.2185      9287.6463      8779.2567     -358.98197    
+       600  -359.2502       12.150014      12.150014      12.150014      8482.9009      8263.1658      8001.6847      9183.8521     -359.2502     
+       700  -358.9818       12.150014      12.150014      12.150014      8560.7929      7490.1214      9149.75        9042.5072     -358.9818     
+       800  -359.03452      12.150014      12.150014      12.150014      8008.3489      8531.7481      7746.2747      7747.0237     -359.03452    
+       900  -359.52376      12.150014      12.150014      12.150014      7343.0948      7047.33        7568.5379      7413.4165     -359.52376    
+      1000  -359.04802      12.150014      12.150014      12.150014      8241.0406      8478.0816      8256.6729      7988.3674     -359.04802    
+      1016  -359.29284      12.150014      12.150014      12.150014      8103.9251      8505.5027      7862.463       7943.8097     -359.29284    
+Loop time of 0.547731 on 14 procs for 1000 steps with 108 atoms
+
+Performance: 394.354 ns/day, 0.061 hours/ns, 1825.714 timesteps/s, 197.177 katom-step/s
+72.7% CPU use with 1 MPI tasks x 14 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.24896    | 0.24896    | 0.24896    |   0.0 | 45.45
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.004625   | 0.004625   | 0.004625   |   0.0 |  0.84
+Output  | 0.0001346  | 0.0001346  | 0.0001346  |   0.0 |  0.02
+Modify  | 0.29289    | 0.29289    | 0.29289    |   0.0 | 53.47
+Other   |            | 0.001122   |            |       |  0.20
+
+Nlocal:            108 ave         108 max         108 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1580 ave        1580 max        1580 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Neighbor list builds = 0
+Dangerous builds = 0
+
+# Save the final configuration.
+write_data al.data-lattice.out
+System init for write_data ...
+
+Total wall time: 0:00:01
