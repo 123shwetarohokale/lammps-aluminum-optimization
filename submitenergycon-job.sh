@@ -11,4 +11,4 @@
 
 module load lammps_gpu
 export OMP_NUM_THREADS=14
-mpirun -np 1 -npernode 14 lmp -sf gpu -pk gpu 1 -in in_lattice_eng.nvt -var latconst 4
+mpirun -np 1 -npernode 14 lmp -sf gpu -pk gpu 1 -in in_autocorrelation.nvt -var latconst 4
