@@ -9,9 +9,6 @@ boundary p p p
 atom_style atomic 
 atom_modify map array
 
-# Use externally passed variable or default to 4.00 Å
-variable latconst equal ${latconst}
-
 # ---------- Create Atoms --------------------- 
 lattice 	fcc ${latconst}
 region box block 0 1 0 1 0 1 units lattice
@@ -43,6 +40,7 @@ variable teng equal "c_eatoms"
 variable length equal "lx"
 variable ecoh equal "v_teng/v_natoms"
 
+print "Running simulation with lattice constant = ${latconst}"
 print "Total energy (eV) = ${teng};"
 print "Number of atoms = ${natoms};"
 print "Lattice constant (Angstoms) = ${length};"
