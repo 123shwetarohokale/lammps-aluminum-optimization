@@ -11,4 +11,7 @@
 
 module load lammps_gpu
 export OMP_NUM_THREADS=14
-mpirun -np 1 -npernode 14 lmp -sf gpu -pk gpu 1 -in in_lattice.nvt -var latconst <value>
+for lat in $(seq 3.00 0.10 5.00); do
+    echo "Running for lattice constant: $lat"
+    mpirun -np 1 -npernode 14 lmp -sf gpu -pk gpu 1 -in in_lattice.nvt -var latconst $lat -log log_lat_$lat.lammps
+done
