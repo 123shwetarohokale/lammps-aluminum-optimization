@@ -4,3 +4,4 @@ This repository contains scripts and documentation for running molecular dynamic
 The simulations investigate the mechanical and thermodynamic properties of single-crystal Al under uniaxial tensile deformation and thermal equilibration.
 
 **2.0 Software Environment Setup**
+This input script was run using the Aug 2015 version of LAMMPS. Changes in some commands may require revision of the input script. To get the input file, you have a few options:
