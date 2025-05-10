@@ -1,52 +1,39 @@
-%%writefile in.tensile.txt
-######################################
-# LAMMPS INPUT SCRIPT
-# Input file for uniaxial tensile loading of single crystal aluminum
-# Mark Tschopp
-# To execute, use the syntax "lmp_exe < in.tensile.txt" from command prompt
+# Find minimum energy fcc configuration
+# Mark Tschopp, 2010
 
-######################################
-# VARIABLES
-variable n_iter equal 20000
+# ---------- Initialize Simulation --------------------- 
+clear 
+units metal 
+dimension 3 
+boundary p p p 
+atom_style atomic 
+atom_modify map array
 
-######################################
-# INITIALIZATION
-units metal
-dimension 3
-boundary p p p
-atom_style atomic
-variable latparam equal 4.05
+# ---------- Create Atoms --------------------- 
+lattice 	fcc 4
+region box block 0 1 0 1 0 1 units lattice
+create_box 1 box
+lattice	fcc 4 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1  
+create_atoms 1 box
+replicate 15 15 15
 
-######################################
-# ATOM DEFINITION
-lattice  fcc ${latparam} orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
-region whole block 0 10 0 10 0 10
-create_box 1 whole
-create_atoms 1 region whole
-
-######################################
-# DEFINE INTERATOMIC POTENTIAL
-pair_style eam/alloy
+# ---------- Define Interatomic Potential --------------------- 
+pair_style eam/alloy 
 pair_coeff * * Al99.eam.alloy Al
-
-######################################
-# DEFINE COMPUTES 
+ 
+# ---------- Define Settings --------------------- 
 compute csym all centro/atom fcc
-compute peratom all pe/atom 
+compute peratom all pe/atom  
 
-######################################
-# EQUILIBRATION
-reset_timestep 0
+# ---------- Run Minimization --------------------- 
+reset_timestep 0 
 timestep 0.001
 velocity all create 300 12345 mom yes rot no
 fix 1 all npt temp 300 300 1 iso 0 0 1 drag 1 
 
-# Set thermo output
-thermo 1000
+thermo 1000 
 thermo_style custom step lx ly lz press pxx pyy pzz pe temp
-
-# Run for at least 10 picosecond (assuming 1 fs timestep)
-run ${n_iter}
+run 1000
 unfix 1
 
 # Store final cell length for strain calculations
@@ -80,8 +67,23 @@ dump_modify 1 element Al
 # Display thermo
 thermo 1000
 thermo_style custom step v_strain temp v_p2 v_p3 v_p4 ke pe press
-run ${n_iter}
+run 1000
 
 ######################################
 # SIMULATION DONE
 print "All done"
+#
+# Integration details,
+timestep 0.0025
+fix ensFix all nvt temp 273 273 0.25
+velocity all create 273 4928459 dist gaussian
+#dump myDump all  atom 100 traj.dcd
+# Save the starting configuration.
+write_data starting.dat.out
+
+# Run the simulation.
+thermo 100
+run 1000
+
+# Save the final configuration.
+write_data al.tensiledata.out
